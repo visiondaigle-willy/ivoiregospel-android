@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Thème principal, actif une fois l'activité démarrée. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/violetBlack</item>
+        <item name="android:navigationBarColor">@color/violetBlack</item>
+        <item name="android:windowBackground">@color/violetBlack</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+    </style>
+
+    <!--
+      Thème de lancement : affiché brièvement pendant le démarrage de
+      l'activité, avant que MainActivity ne bascule vers AppTheme. Évite un
+      flash blanc au lancement de l'application (technique standard,
+      sans dépendance supplémentaire).
+    -->
+    <style name="Theme.Launcher" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/violetBlack</item>
+        <item name="android:navigationBarColor">@color/violetBlack</item>
+    </style>
+
+</resources>

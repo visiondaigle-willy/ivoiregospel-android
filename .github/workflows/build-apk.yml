@@ -1,0 +1,44 @@
+name: Compiler l'APK
+
+# Se déclenche automatiquement à chaque envoi sur main, et peut aussi être
+# lancé manuellement depuis l'onglet « Actions » du dépôt (bouton
+# « Run workflow ») sans avoir besoin de pousser un commit.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build APK (debug)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer le JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Installer le SDK Android
+        uses: android-actions/setup-android@v3
+
+      - name: Vérifier l'intégrité du wrapper Gradle
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Autoriser l'exécution de gradlew
+        run: chmod +x gradlew
+
+      - name: Compiler l'APK (debug, installable directement)
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Publier l'APK comme fichier téléchargeable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ivoiregospel-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 90

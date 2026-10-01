@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="violetBlack">#14061F</color>
+    <color name="violetDeep">#2E1065</color>
+    <color name="violet">#5B21B6</color>
+    <color name="orange">#FF6A2B</color>
+    <color name="orangeSoft">#FFB27A</color>
+    <color name="cream">#FFF6EC</color>
+    <color name="muted">#B3A99E</color>
+
+    <!-- Fond de l'icône adaptative (Android 8+) -->
+    <color name="ic_launcher_background">#14061F</color>
+</resources>
