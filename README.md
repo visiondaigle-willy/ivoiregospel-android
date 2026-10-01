@@ -10,6 +10,6 @@ Ce dépôt compile automatiquement l'APK via **GitHub Actions** à chaque envoi 
 
 1. Onglet **Actions** de ce dépôt
 2. Workflow **« Compiler l'APK »** → dernière exécution (ou *Run workflow* pour en lancer une manuellement)
-3. En bas de la page de l'exécution, section **Artifacts** → télécharger `ivoiregospel-debug-apk` (fichier .zip contenant le .apk)
-
-C'est un APK de **debug** : installable directement sur un téléphone Android (il faut autoriser « Installer des apps inconnues » la première fois) ou à partager pour tester. Pour une publication sur le **Play Store**, il faut un APK/AAB **signé en version release** — voir la section correspondante dans `LISEZ-MOI-ANDROID.md`.
+3. En bas de la page de l'exécution, section **Artifacts** → deux fichiers .zip sont disponibles :
+   - **`ivoiregospel-debug-apk`** — APK de **debug**, installable directement sur un téléphone Android (il faut autoriser « Installer des apps inconnues » la première fois) ou à partager pour tester.
+   - **`ivoiregospel-release-apk`** — APK de **release, signé**, prêt pour le Play Store ou une diffusion finale. Il n'est signé que si les 4 secrets de signature ont été ajoutés au dépôt — voir la section « Publier une version signée » dans `LISEZ-MOI-ANDROID.md` (le fichier keystore et ses mots de passe ont été livrés séparément).

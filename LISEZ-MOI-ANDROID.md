@@ -33,9 +33,11 @@ Sur Android, dans Chrome, un bandeau *« Installer IvoireGospel sur votre écran
 
 ## Option B — Application native (.apk / Play Store)
 
-Ici, la nuance est importante : **je ne peux pas vous livrer un fichier .apk compilé.** Produire un .apk demande le kit de développement Android (Android SDK) et une chaîne de compilation (Gradle) — des outils qui tournent sur un ordinateur avec Android Studio installé, pas dans cet environnement. Un `.apk` que je prétendrais avoir « compilé » sans ces outils serait non fonctionnel.
+**Le .apk est maintenant compilé automatiquement**, via GitHub Actions (voir `README.md`) : à chaque envoi sur `main`, deux fichiers sont produits et téléchargeables depuis l'onglet **Actions** du dépôt :
+- **`ivoiregospel-debug-apk`** — installable directement sur un téléphone pour tester, pas besoin de signature.
+- **`ivoiregospel-release-apk`** — la version **release, signée** (voir « Publier une version signée » plus bas), celle à utiliser pour le Play Store ou pour diffuser une version finale.
 
-Ce que je vous donne à la place : **le projet Android Studio complet et prêt**, code source inclus — il ne reste plus qu'à l'ouvrir et cliquer sur « Build ».
+Le projet Android Studio complet reste aussi inclus dans ce dépôt (dossier `app/`), au cas où vous préfériez compiler vous-même sur votre ordinateur.
 
 ### Ce que fait cette application
 Une WebView (un navigateur intégré, sans interface de navigateur autour) qui charge `https://www.ivoiregospel.com/`. Autrement dit : le même site, dans une coquille native. Concrètement, j'ai ajouté ce qu'un navigateur ne fait pas nativement :
@@ -52,14 +54,34 @@ Une WebView (un navigateur intégré, sans interface de navigateur autour) qui c
 3. Laisser Android Studio synchroniser le projet (il télécharge automatiquement ce qu'il lui manque — SDK, Gradle — au premier lancement, ça peut prendre quelques minutes)
 4. *Build → Generate Signed Bundle / APK* pour produire un fichier installable
 
-### Avant de publier sur le Play Store
-- **Changez le nom de package** `com.ivoiregospel.app` si vous voulez un identifiant qui vous est propre (clic droit sur le package dans Android Studio → *Refactor → Rename*)
+### Publier une version signée (release)
+
+Une app Android doit être **signée** avec une clé avant de pouvoir être installée en dehors du debug ou publiée sur le Play Store — et **la même clé doit être réutilisée pour toutes les futures mises à jour** (Google refuse une mise à jour signée avec une clé différente de la première version publiée).
+
+J'ai généré cette clé pour vous : le fichier **`ivoiregospel-release.jks`** et ses mots de passe vous ont été envoyés séparément (voir le message qui accompagne cette livraison). **Conservez-les en lieu sûr, hors de ce dépôt Git — si vous les perdez, vous ne pourrez plus jamais mettre à jour l'app sous la même identité Play Store.**
+
+Pour que GitHub Actions compile automatiquement une version release **signée** (`ivoiregospel-release-apk`), ajoutez ces 4 secrets au dépôt — **Settings → Secrets and variables → Actions → New repository secret** :
+
+| Nom du secret | Valeur |
+|---|---|
+| `RELEASE_KEYSTORE_BASE64` | Contenu du fichier `ivoiregospel-release.jks`, encodé en base64 (voir ci-dessous) |
+| `RELEASE_KEYSTORE_PASSWORD` | Le mot de passe du keystore (fourni avec le fichier) |
+| `RELEASE_KEY_PASSWORD` | Identique au mot de passe du keystore (format PKCS12 — une seule valeur pour les deux) |
+| `RELEASE_KEY_ALIAS` | `ivoiregospel` |
+
+Pour obtenir la valeur base64 du keystore (sur votre ordinateur, où que soit le fichier `.jks` téléchargé) :
+- **Mac/Linux** : `base64 -i ivoiregospel-release.jks | pbcopy` (Mac, copie directement dans le presse-papiers) ou `base64 -w0 ivoiregospel-release.jks` (Linux, à copier depuis le terminal)
+- **Windows (PowerShell)** : `[Convert]::ToBase64String([IO.File]::ReadAllBytes("ivoiregospel-release.jks")) | Set-Clipboard`
+
+Une fois les 4 secrets ajoutés, relancez le workflow (*Actions → Compiler l'APK → Run workflow*, ou un simple nouvel envoi sur `main`) : le job **« Build APK (release, signée) »** produira alors un `.apk` signé, prêt pour le Play Store (après l'avoir, si besoin, converti en `.aab` depuis Android Studio : *Build → Generate Signed Bundle*).
+
+Autres points avant publication :
+- **Changez le nom de package** `com.ivoiregospel.app` si vous voulez un identifiant qui vous est propre (clic droit sur le package dans Android Studio → *Refactor → Rename*) — à faire **avant** la toute première publication, car il ne peut plus être changé ensuite.
 - Un compte développeur Google Play coûte 25 $ (paiement unique)
 - Icône 512×512 pour la fiche du store déjà prête : `store-assets/play-store-icon-512.png`
 
 ### Ce qui n'est PAS inclus (et pourquoi)
 - **Notifications push** — demande de créer un projet Firebase qui vous appartient (identifiants propres à vous, je ne peux pas le faire à votre place). Je peux vous guider pour l'ajouter plus tard si besoin.
-- **Fichier .apk compilé** — comme expliqué plus haut, nécessite Android Studio de votre côté.
 
 ### Structure du projet
 ```

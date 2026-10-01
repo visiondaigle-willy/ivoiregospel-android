@@ -4,4 +4,15 @@
     <item android:gravity="center" android:width="140dp" android:height="140dp">
         <bitmap android:gravity="center" android:src="@mipmap/ic_launcher" />
     </item>
+    <!--
+      Bandeau « Propulsé par VISION D'AIGLE » en bas de l'écran de démarrage.
+      Taille forcée en dp (ratio 6:1, identique à l'image source 900x150px
+      dans drawable-nodpi) afin que le bitmap soit mis à l'échelle de façon
+      identique sur tous les écrans, plutôt que d'être affiché à sa taille
+      « physique » (puisqu'il n'existe qu'en une seule résolution, hors des
+      dossiers densité mdpi/hdpi/...).
+    -->
+    <item android:gravity="bottom|center_horizontal" android:width="264dp" android:height="44dp" android:bottom="56dp">
+        <bitmap android:src="@drawable/splash_wordmark" />
+    </item>
 </layer-list>
