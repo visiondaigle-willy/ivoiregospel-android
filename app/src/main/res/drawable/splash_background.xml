@@ -5,14 +5,17 @@
         <bitmap android:gravity="center" android:src="@mipmap/ic_launcher" />
     </item>
     <!--
-      Bandeau « Propulsé par VISION D'AIGLE » en bas de l'écran de démarrage.
-      Taille forcée en dp (ratio 6:1, identique à l'image source 900x150px
-      dans drawable-nodpi) afin que le bitmap soit mis à l'échelle de façon
-      identique sur tous les écrans, plutôt que d'être affiché à sa taille
-      « physique » (puisqu'il n'existe qu'en une seule résolution, hors des
-      dossiers densité mdpi/hdpi/...).
+      Bandeau « Propulsé par » + logo officiel VISION D'AIGLE (fourni par le
+      client) sur une pastille crème, en bas de l'écran de démarrage — la
+      pastille claire garantit la lisibilité du logo (violet foncé) sur le
+      fond très sombre de l'écran de démarrage.
+      Taille forcée en dp (ratio 2.72:1, identique à l'image source
+      816x300px dans drawable-nodpi) afin que le bitmap soit mis à l'échelle
+      de façon identique sur tous les écrans, plutôt que d'être affiché à sa
+      taille « physique » (puisqu'il n'existe qu'en une seule résolution,
+      hors des dossiers densité mdpi/hdpi/...).
     -->
-    <item android:gravity="bottom|center_horizontal" android:width="264dp" android:height="44dp" android:bottom="56dp">
-        <bitmap android:src="@drawable/splash_wordmark" />
+    <item android:gravity="bottom|center_horizontal" android:width="204dp" android:height="75dp" android:bottom="48dp">
+        <bitmap android:src="@drawable/splash_wordmark_logo" />
     </item>
 </layer-list>
